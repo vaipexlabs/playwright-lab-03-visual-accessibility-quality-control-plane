@@ -18,7 +18,7 @@ EXPECTED_RUNTIME_PINS = {
 }
 
 EXPECTED_TEST_PINS = {
-    "httpx": "0.28.1",
+    "httpx2": "2.10.0",
     "pip-tools": "7.6.1",
     "pytest": "9.1.1",
     "pytest-html": "4.2.0",

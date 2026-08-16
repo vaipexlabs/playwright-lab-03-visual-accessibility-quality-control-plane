@@ -19,6 +19,7 @@ communities.
 [Architecture](#architecture) ·
 [Target Experience](#target-experience) ·
 [Toolchain Setup](#toolchain-setup) ·
+[Reference Application](#reference-application) ·
 [Baseline Governance](#baseline-governance) ·
 [Accessibility Policy](#accessibility-policy) ·
 [Delivery Roadmap](#delivery-roadmap) ·
@@ -115,6 +116,38 @@ browser engine and its version under Playwright's control makes screenshot
 baselines reproducible across local and continuous execution. The preceding
 lab in this series owns cross-browser compatibility coverage.
 
+## Reference Application
+
+The repository includes a polished, responsive experience-quality dashboard
+designed specifically for deterministic visual and accessibility validation.
+It uses fixed data, local assets, a system-font stack, explicit render identity,
+reduced-motion handling, and no calls to external services.
+
+Start it with:
+
+```bash
+./scripts/start-app.sh
+```
+
+Open [http://127.0.0.1:8000](http://127.0.0.1:8000). Stop the application with
+`Control-C`. Set `PORT` when port 8000 is occupied:
+
+```bash
+PORT=8080 ./scripts/start-app.sh
+```
+
+The application exposes addressable states so automation can reproduce the
+same interface without test-only DOM manipulation:
+
+| State | URL | Intended evidence |
+| --- | --- | --- |
+| Ready | `/?state=ready` | Healthy populated dashboard |
+| Empty | `/?state=empty` | First-use and empty-content behavior |
+| Degraded | `/?state=degraded` | Blocking quality status and warning treatment |
+| Review dialog | `/?dialog=true` | Form, focus, overlay, and responsive modal state |
+
+The readiness contract is available at `/health/ready` for local orchestration.
+
 ## Baseline Governance
 
 Visual baselines are product evidence, not disposable test output.
@@ -164,7 +197,7 @@ usability review; they do not replace them.
 
 - [x] Establish the repository, quality contract, licensing, and project shape.
 - [x] Add the locked Python, Playwright, and accessibility-analysis toolchain.
-- [ ] Deliver a deterministic responsive reference application.
+- [x] Deliver a deterministic responsive reference application.
 - [ ] Implement reviewed visual baselines and explicit update controls.
 - [ ] Add desktop and mobile visual-regression profiles.
 - [ ] Enforce WCAG tags, severity policy, and governed exceptions.
@@ -199,6 +232,8 @@ quality-toolchain contract.
 docs/images/              Vaipex delivery-flow and architecture illustrations
 policies/                 Versioned visual and accessibility decision rules
 src/                      Python control plane and reference application
+src/.../static/           Local JavaScript and responsive visual system
+src/.../templates/        Deterministic application markup and states
 tests/accessibility/      Accessibility journeys and policy assertions
 tests/visual/             Visual states, profiles, and reviewed baselines
 scripts/                  Supported setup, execution, and demonstration commands

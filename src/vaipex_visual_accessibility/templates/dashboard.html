@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Experience Quality Review | Vaipex Labs</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/styles.css') }}">
+    <script src="{{ url_for('static', path='/app.js') }}" defer></script>
+  </head>
+  <body data-render-contract="vaipex-v1" data-state="{{ state }}">
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="Vaipex Labs experience quality home">
+        <span class="brand-mark" aria-hidden="true">V</span>
+        <span>
+          <strong>Vaipex Labs</strong>
+          <small>Experience Quality</small>
+        </span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a class="active" href="/" aria-current="page">Overview</a>
+        <a href="/?state=empty">Baselines</a>
+        <a href="/?state=degraded">Findings</a>
+      </nav>
+      <div class="header-actions">
+        <span class="environment"><span aria-hidden="true"></span>Reference</span>
+        <button class="avatar" type="button" aria-label="Open user menu">VL</button>
+      </div>
+    </header>
+
+    <main id="main-content" tabindex="-1">
+      <section class="hero" aria-labelledby="page-title">
+        <div>
+          <p class="eyebrow">Quality control plane</p>
+          <h1 id="page-title">Experience quality review</h1>
+          <p class="lede">One governed view of visual confidence and accessibility risk.</p>
+        </div>
+        <div class="hero-actions">
+          <button class="button button-secondary" type="button" data-open-dialog>
+            Review policy
+          </button>
+          <a class="button button-primary" href="/?dialog=true">New review</a>
+        </div>
+      </section>
+
+      {% if state == "degraded" %}
+      <section class="notice notice-danger" role="status" aria-labelledby="degraded-title">
+        <span class="notice-icon" aria-hidden="true">!</span>
+        <div>
+          <h2 id="degraded-title">Quality gate requires attention</h2>
+          <p>Two serious accessibility findings block the current review.</p>
+        </div>
+        <a href="#projects">View affected projects</a>
+      </section>
+      {% else %}
+      <section class="notice" role="status" aria-labelledby="snapshot-title">
+        <span class="notice-icon" aria-hidden="true">✓</span>
+        <div>
+          <h2 id="snapshot-title">Deterministic reference snapshot</h2>
+          <p>Fixed data, local assets, a declared font stack, and disabled motion are active.</p>
+        </div>
+        <time datetime="2026-08-16T09:30:00Z">16 Aug 2026 · 09:30 UTC</time>
+      </section>
+      {% endif %}
+
+      <section class="metric-grid" aria-label="Quality summary">
+        <article class="metric-card">
+          <span class="metric-icon purple" aria-hidden="true">✓</span>
+          <div><p>Approved baselines</p><strong>{{ metrics.approved }}</strong></div>
+          <span class="trend">+4 this week</span>
+        </article>
+        <article class="metric-card">
+          <span class="metric-icon blue" aria-hidden="true">↗</span>
+          <div><p>Awaiting review</p><strong>{{ metrics.review }}</strong></div>
+          <span class="trend neutral">Owner action</span>
+        </article>
+        <article class="metric-card">
+          <span class="metric-icon green" aria-hidden="true">◉</span>
+          <div><p>Viewport coverage</p><strong>{{ metrics.coverage }}</strong></div>
+          <span class="trend">Desktop + mobile</span>
+        </article>
+        <article class="metric-card">
+          <span class="metric-icon orange" aria-hidden="true">◆</span>
+          <div><p>Blocking findings</p><strong>{{ metrics.finding }}</strong></div>
+          <span class="trend neutral">Critical + serious</span>
+        </article>
+      </section>
+
+      <section class="content-grid">
+        <article class="panel" id="projects" aria-labelledby="projects-title">
+          <header class="panel-header">
+            <div>
+              <p class="eyebrow">Review queue</p>
+              <h2 id="projects-title">Customer-critical projects</h2>
+            </div>
+            <button class="icon-button" type="button" aria-label="Filter projects">☷</button>
+          </header>
+
+          {% if projects %}
+          <div class="table-scroll" tabindex="0" aria-label="Scrollable project review table">
+            <table>
+              <caption>Current deterministic project-review snapshot</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Project</th>
+                  <th scope="col">Owner</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Coverage</th>
+                  <th scope="col">Last review</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for project in projects %}
+                <tr>
+                  <th scope="row">{{ project.name }}</th>
+                  <td>{{ project.owner }}</td>
+                  <td><span class="status {{ project.status_class }}">{{ project.status }}</span></td>
+                  <td>{{ project.coverage }}</td>
+                  <td>{{ project.last_review }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% else %}
+          <div class="empty-state">
+            <span aria-hidden="true">◇</span>
+            <h3>No reviews in this state</h3>
+            <p>Create a review to establish the first governed baseline.</p>
+            <a class="button button-primary" href="/?dialog=true">Create review</a>
+          </div>
+          {% endif %}
+        </article>
+
+        <aside class="panel policy-panel" aria-labelledby="policy-title">
+          <p class="eyebrow">Active contract</p>
+          <h2 id="policy-title">Quality policy</h2>
+          <dl>
+            <div><dt>Standard</dt><dd>WCAG 2.2 A + AA</dd></div>
+            <div><dt>Viewports</dt><dd>Desktop · Mobile</dd></div>
+            <div><dt>Renderer</dt><dd>Chromium 151</dd></div>
+            <div><dt>Blocking impact</dt><dd>Critical · Serious</dd></div>
+          </dl>
+          <div class="policy-score" aria-label="Policy controls configured: 8 of 8">
+            <div><strong>8/8</strong><span>controls configured</span></div>
+            <svg viewBox="0 0 44 44" role="img" aria-label="100 percent configured">
+              <circle class="score-track" cx="22" cy="22" r="18"></circle>
+              <circle class="score-value" cx="22" cy="22" r="18"></circle>
+            </svg>
+          </div>
+          <button class="text-button" type="button" data-open-dialog>View policy details <span aria-hidden="true">→</span></button>
+        </aside>
+      </section>
+    </main>
+
+    <footer>
+      <span>Vaipex Labs reference implementation</span>
+      <span>Render contract: vaipex-v1</span>
+    </footer>
+
+    <dialog id="policy-dialog" {% if dialog_open %}data-auto-open="true"{% endif %} aria-labelledby="dialog-title">
+      <div class="dialog-heading">
+        <div>
+          <p class="eyebrow">Governed review</p>
+          <h2 id="dialog-title">Create quality review</h2>
+        </div>
+        <button class="icon-button" type="button" data-close-dialog aria-label="Close dialog">×</button>
+      </div>
+      <p>Capture one deterministic interface state against the active visual and accessibility policy.</p>
+      <form method="dialog">
+        <label for="review-name">Review name</label>
+        <input id="review-name" name="review-name" value="Checkout launch readiness">
+        <label for="viewport">Viewport profile</label>
+        <select id="viewport" name="viewport">
+          <option>Desktop · 1440 × 1000</option>
+          <option>Mobile · 390 × 844</option>
+        </select>
+        <div class="dialog-actions">
+          <button class="button button-secondary" type="button" data-close-dialog>Cancel</button>
+          <button class="button button-primary" value="create">Create review</button>
+        </div>
+      </form>
+    </dialog>
+  </body>
+</html>
