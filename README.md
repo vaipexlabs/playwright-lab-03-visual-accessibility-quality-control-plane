@@ -1,309 +1,253 @@
 # Vaipex Visual & Accessibility Quality Control Plane
 
 An open reference implementation for governing visual regression and
-accessibility quality with Playwright and Python. It turns approved interface
-intent into deterministic screenshots, policy-based accessibility evidence,
-and one delivery decision.
+accessibility quality with Playwright and Python. It converts reviewed user
+interface intent into deterministic evidence and one automated delivery
+decision.
 
 Developed by **Vaipex Labs** for the developer and quality engineering
 communities.
 
 ![Focus](https://img.shields.io/badge/Focus-Visual%20%26%20Accessibility-6D42E8)
 ![Playwright](https://img.shields.io/badge/Playwright-Python-2EAD33?logo=playwright&logoColor=white)
-![Policy](https://img.shields.io/badge/Policy-WCAG%202.2%20AA-1677FF)
+![Policy](https://img.shields.io/badge/Policy-WCAG%202.2%20A%20%2B%20AA-1677FF)
 ![License](https://img.shields.io/badge/License-Apache%202.0-blue)
 
-[Project Intent](#project-intent) ·
-[Quality Contract](#quality-contract) ·
+[Two-Minute Demo](#two-minute-demo) ·
+[What It Proves](#what-it-proves) ·
 [Delivery Flow](#delivery-flow) ·
 [Architecture](#architecture) ·
-[Target Experience](#target-experience) ·
-[Toolchain Setup](#toolchain-setup) ·
-[Reference Application](#reference-application) ·
-[Baseline Governance](#baseline-governance) ·
-[Accessibility Policy](#accessibility-policy) ·
-[Delivery Roadmap](#delivery-roadmap) ·
-[Project Boundaries](#project-boundaries)
+[Reference Experience](#reference-experience) ·
+[Quality Controls](#quality-controls) ·
+[Evidence](#evidence) ·
+[Continuous Enforcement](#continuous-enforcement) ·
+[Customization](#customization)
 
-## Project Intent
+## Two-Minute Demo
 
-A functional test can pass while an interface is visually broken or unusable
-with assistive technology. Screenshot comparison without deterministic state
-creates noise, while an ungoverned accessibility scanner can produce findings
-without an actionable delivery decision.
+Set up the locked Python 3.12, Playwright, Chromium, and axe-core toolchain:
 
-This project demonstrates a combined quality capability that:
+```bash
+./scripts/setup.sh
+```
 
-- Defines supported pages, states, and responsive viewports as policy.
-- Captures deterministic screenshots against reviewed baselines.
-- Controls animation, time, fonts, data, and dynamic visual regions.
-- Scans rendered journeys against declared accessibility standards.
-- Applies severity and exception policy consistently.
-- Preserves expected, actual, diff, and violation evidence.
-- Requires explicit review before a visual baseline changes.
-- Produces one stable visual and accessibility gate for delivery automation.
+Run the complete control plane:
 
-## Quality Contract
+```bash
+./scripts/two-minute-demo.sh
+```
 
-The control plane will enforce six principles:
+The demo validates the toolchain, verifies the reviewed baseline approval
+boundary, runs the policy unit tests, captures eight responsive interface
+states, evaluates WCAG-supported rules, and publishes one decision to
+`reports/quality-gate.json`.
 
-1. **Intentional coverage:** every visual state and accessibility journey has a
-   documented customer or platform risk.
-2. **Deterministic capture:** test data, viewport, browser, fonts, animation,
-   and volatile regions are controlled before comparison.
-3. **Reviewed baselines:** a changed screenshot is evidence to review, never a
-   file to overwrite automatically.
-4. **Policy-based accessibility:** standards, tags, severities, and exceptions
-   are versioned with the code.
-5. **Actionable evidence:** failures identify the affected state, rule,
-   viewport, ownership, and supporting artifacts.
-6. **One decision:** delivery consumes the combined quality gate rather than
-   interpreting individual scans or screenshots.
+Expected conclusion:
+
+```text
+Accessibility  PASSED
+Visual         PASSED
+Combined quality decision: PROMOTE
+```
+
+## What It Proves
+
+- Visual baselines are reviewed product evidence, not automatically overwritten
+  test output.
+- Desktop and mobile states are rendered from fixed routes, data, viewport,
+  locale, timezone, color scheme, animation, and browser contracts.
+- Pixel drift and dimension changes produce reviewable actual and diff images.
+- WCAG 2.2 A and AA automation-supported rules are applied to the rendered DOM.
+- Critical and serious accessibility findings block delivery; moderate and
+  minor findings remain visible as advisory evidence.
+- Accessibility exceptions must be narrowly scoped, owned, justified, and
+  unexpired.
+- Visual and accessibility signals remain independently reviewable while
+  producing one stable `PROMOTE` or `REJECT` decision.
+- Local execution and GitHub Actions use the same commands and locked toolchain.
 
 ## Delivery Flow
 
-Interface intent moves through controlled capture, policy evaluation,
-reviewable evidence, and one governed experience-quality decision.
+Interface intent moves through deterministic rendering, two policy-controlled
+quality evaluations, reviewable evidence, and one governed delivery decision.
 
 ![Vaipex visual and accessibility quality flow](docs/images/vaipex-visual-accessibility-flow.svg)
 
 ## Architecture
 
 Developers and GitHub Actions invoke the same Python control layer. Playwright
-renders deterministic interface states, the visual comparator evaluates them
-against reviewed baselines, the accessibility engine evaluates the rendered
-DOM, and the evidence layer publishes one combined gate.
+renders the declared interface matrix, Pillow performs pixel comparison,
+axe-core evaluates the rendered DOM, and the decision layer correlates both
+evidence sets.
 
 ![Vaipex visual and accessibility quality architecture](docs/images/vaipex-visual-accessibility-architecture.svg)
 
-## Target Experience
+## Reference Experience
 
-The finished implementation will provide one short demonstration:
+The repository includes a responsive experience-quality dashboard built for
+repeatable visual and accessibility validation.
 
-```bash
-./scripts/two-minute-demo.sh
-```
+![Vaipex experience quality dashboard](tests/visual/baselines/desktop/ready.png)
 
-It will validate the locked toolchain, prove an approved visual state, expose
-an intentional visual regression, detect a policy-blocking accessibility
-violation, preserve both evidence sets, and print the combined quality
-decision.
-
-## Toolchain Setup
-
-The project uses Python 3.12 and a fully resolved dependency lock. One command
-creates the local virtual environment, installs the locked packages, installs
-the Playwright-managed Chromium renderer, and validates the result:
-
-```bash
-./scripts/setup.sh
-```
-
-Activate the environment when using the Python tools directly:
-
-```bash
-source .venv/bin/activate
-```
-
-Validate an existing environment without changing it:
-
-```bash
-./scripts/validate-toolchain.sh
-```
-
-Chromium is the deliberate reference renderer for this project. Keeping one
-browser engine and its version under Playwright's control makes screenshot
-baselines reproducible across local and continuous execution. The preceding
-lab in this series owns cross-browser compatibility coverage.
-
-## Reference Application
-
-The repository includes a polished, responsive experience-quality dashboard
-designed specifically for deterministic visual and accessibility validation.
-It uses fixed data, local assets, a system-font stack, explicit render identity,
-reduced-motion handling, and no calls to external services.
-
-Start it with:
+Start it locally:
 
 ```bash
 ./scripts/start-app.sh
 ```
 
-Open [http://127.0.0.1:8000](http://127.0.0.1:8000). Stop the application with
-`Control-C`. Set `PORT` when port 8000 is occupied:
+Open [http://127.0.0.1:8000](http://127.0.0.1:8000) and stop it with
+`Control-C`. Use another port when required:
 
 ```bash
 PORT=8080 ./scripts/start-app.sh
 ```
 
-The application exposes addressable states so automation can reproduce the
-same interface without test-only DOM manipulation:
-
-| State | URL | Intended evidence |
+| State | URL | Risk represented |
 | --- | --- | --- |
 | Ready | `/?state=ready` | Healthy populated dashboard |
 | Empty | `/?state=empty` | First-use and empty-content behavior |
-| Degraded | `/?state=degraded` | Blocking quality status and warning treatment |
-| Review dialog | `/?dialog=true` | Form, focus, overlay, and responsive modal state |
+| Degraded | `/?state=degraded` | Blocking status and warning treatment |
+| Review dialog | `/?dialog=true` | Form, focus, overlay, and modal behavior |
 
-The readiness contract is available at `/health/ready` for local orchestration.
+Every state is evaluated at desktop 1440 × 1000 and mobile 390 × 844. The
+readiness contract is available at `/health/ready`.
 
-## Baseline Governance
+## Quality Controls
 
-Visual baselines are product evidence, not disposable test output.
+### Governed visual baselines
 
-| Control | Intent |
-| --- | --- |
-| Named states | Capture meaningful pages, dialogs, empty states, and error states |
-| Fixed profiles | Bind baselines to explicit browser and viewport contracts |
-| Stable rendering | Disable animation, wait for fonts, and seed deterministic data |
-| Volatile-region policy | Mask only reviewed dynamic content with a documented reason |
-| Explicit update | Generate candidates through one supported command |
-| Pull-request review | Review expected, actual, and diff images together |
-| Protected main | Accept a new baseline only with the related product change |
-
-Reviewed images will live under `tests/visual/baselines/`. Generated candidate
-and diff evidence will remain outside Git under `artifacts/` and `reports/`.
-
-### Governed baseline lifecycle
-
-Generate a candidate set without changing the approved baseline boundary:
+Generate a candidate set without changing approved images:
 
 ```bash
 ./scripts/propose-baselines.sh
 ```
 
-Review every PNG and its manifest under `artifacts/visual/candidates/`. The
-manifest records the policy digest, route, browser version, renderer,
-dimensions, and screenshot SHA-256 digest used for the review. Candidate
-evidence is intentionally ignored by Git.
+Review all candidate PNGs and `artifacts/visual/candidates/manifest.json`. The
+manifest binds every image to its route, dimensions, browser, renderer, policy
+digest, and SHA-256 digest.
 
-Only after review, promote that exact candidate set with the explicit approval
-signal:
+Promote the exact reviewed bytes only after explicit approval:
 
 ```bash
 VAIPEX_APPROVE_BASELINES=1 ./scripts/accept-baselines.sh
 ```
 
-Promotion verifies every candidate's digest and dimensions, rejects unsafe
-paths, copies the reviewed bytes into `tests/visual/baselines/`, and publishes
-the approval manifest. It never generates a new screenshot while accepting.
-
-Verify the committed approval boundary at any time:
+Verify the committed approval boundary or run the visual gate directly:
 
 ```bash
 ./scripts/verify-baselines.sh
-```
-
-The approved matrix covers ready, empty, degraded, and review-dialog states at
-desktop 1440 × 1000 and mobile 390 × 844 using the pinned Chromium renderer.
-
-### Run the visual quality gate
-
-```bash
 ./scripts/test-visual.sh
 ```
 
-The command captures all eight profile-state combinations, compares them with
-the approved images, and applies the versioned threshold policy. A channel
-delta of eight or less is treated as rendering noise; the gate fails when more
-than 0.1% of pixels exceed that delta or when dimensions change.
+The comparator ignores channel deltas of eight or less and rejects a capture
+when more than 0.1% of pixels exceed that tolerance. It also rejects dimension,
+route, browser, renderer, policy, or capture-matrix drift.
 
-Review evidence is written outside Git:
+### Policy-based accessibility
+
+Run the accessibility gate independently:
+
+```bash
+./scripts/test-accessibility.sh
+```
+
+The versioned policy in `policies/accessibility.json` declares the WCAG tags,
+responsive matrix, and impact classifications. The exception register in
+`policies/accessibility-exceptions.json` starts empty. Any future exception
+must define one rule, selector, profile/state, owner, reason, and expiry date;
+broad, duplicate, incomplete, or expired entries fail policy validation.
+
+Automated accessibility scans are an engineering control, not accessibility
+certification. They complement manual keyboard, screen-reader, content, and
+disability-led usability review.
+
+### One delivery decision
+
+Run both dimensions and correlate their evidence:
+
+```bash
+./scripts/test-quality.sh
+```
+
+The decision is `PROMOTE` only when the visual gate and blocking accessibility
+gate both pass. Advisory and excepted findings remain visible without weakening
+the decision contract.
+
+## Evidence
+
+Generated evidence stays outside version control while remaining available to
+engineers and CI reviewers.
 
 | Evidence | Location |
 | --- | --- |
 | Current captures | `artifacts/visual/actual/` |
-| Highlighted differences | `artifacts/visual/diffs/` |
-| Machine-readable decision | `reports/visual/results.json` |
+| Pixel-difference images | `artifacts/visual/diffs/` |
+| Visual decision | `reports/visual/results.json` |
+| Raw axe results by state | `reports/accessibility/states/` |
+| Accessibility decision | `reports/accessibility/results.json` |
+| Combined decision | `reports/quality-gate.json` |
 
-Diff images preserve the expected interface in muted grayscale and highlight
-changed pixels in magenta. Dimension failures preserve expected and actual
-images side by side, separated by a magenta boundary.
+Diff images retain the expected interface in muted grayscale and highlight
+changed pixels in magenta. Dimension mismatches preserve expected and actual
+images side by side.
 
-## Accessibility Policy
+## Continuous Enforcement
 
-The accessibility gate will use automated analysis as an engineering control,
-not as a claim of full accessibility certification.
+`.github/workflows/quality-gate.yml` runs for pull requests, pushes to `main`,
+and manual dispatches. It installs the locked toolchain, runs static and unit
+checks, evaluates the combined gate, and uploads visual and accessibility
+evidence even when a check fails. The evidence artifact is retained for 14
+days.
 
-| Policy dimension | Intended contract |
-| --- | --- |
-| Standard | WCAG 2.2 Level A and AA automation-supported rules |
-| Scope | Customer-critical rendered states and interactive components |
-| Blocking severity | Critical and serious violations |
-| Advisory severity | Moderate and minor findings remain visible as evidence |
-| Exceptions | Versioned, owned, justified, and time-bounded |
-| Evidence | Rule, impact, help, selector, markup, and remediation guidance |
-
-Automated scans complement keyboard, screen-reader, content, and human
-usability review; they do not replace them.
-
-## Quality Dimensions
-
-| Dimension | Representative coverage |
-| --- | --- |
-| Visual state | Landing, populated, modal, validation, and completion states |
-| Responsive viewport | Desktop, compact desktop, and touch-oriented mobile |
-| Rendering contract | Stable browser, fonts, animation, color scheme, and data |
-| Accessibility | Structure, names, roles, contrast, forms, focus, and landmarks |
-| Evidence | Expected, actual, diff, scan report, HTML, and machine-readable JSON |
-| Execution stage | Local review, pull request, `main`, and scheduled verification |
-
-## Delivery Roadmap
-
-- [x] Establish the repository, quality contract, licensing, and project shape.
-- [x] Add the locked Python, Playwright, and accessibility-analysis toolchain.
-- [x] Deliver a deterministic responsive reference application.
-- [x] Implement reviewed visual baselines and explicit update controls.
-- [x] Add desktop and mobile visual-regression profiles.
-- [ ] Enforce WCAG tags, severity policy, and governed exceptions.
-- [ ] Correlate visual and accessibility evidence into one decision.
-- [ ] Enforce the combined quality gate through GitHub Actions.
-- [ ] Publish the two-minute demo and operating guidance.
-
-Each milestone is independently reviewable and preserves a usable project
-state.
+Protect `main` and require the **Experience quality gate** check to prevent
+unreviewed regressions from merging.
 
 ## Toolchain
 
 | Tool | Role |
 | --- | --- |
-| Python 3.12 | Automation and policy orchestration language |
-| Playwright 1.62.0 + Chromium | Pinned browser rendering, interaction, and screenshots |
-| Pytest 9.1.1 | Fixtures, parametrization, markers, and assertions |
-| axe-playwright-python 0.1.8 | Python adapter for automated axe-core evaluation |
-| Pillow 12.3.0 | Deterministic image inspection and evidence metadata |
-| FastAPI 0.141.1 | Self-contained responsive reference application |
-| Ruff 0.16.3 | Python formatting and linting |
-| GitHub Actions | Continuous combined quality-gate enforcement |
+| Python 3.12 | Policy orchestration and decision logic |
+| Playwright 1.62.0 + Chromium | Deterministic browser rendering and capture |
+| Pillow 12.3.0 | Pixel comparison and diff evidence |
+| axe-playwright-python 0.1.8 | Automated axe-core evaluation |
+| Pytest 9.1.1 | Policy and control-plane verification |
+| FastAPI 0.141.1 | Self-contained reference experience |
+| Ruff 0.16.3 | Python static quality checks |
+| GitHub Actions | Continuous quality-gate enforcement |
 
-Direct dependencies are exactly pinned in `pyproject.toml`; the complete
-transitive graph is committed in `requirements.lock`. `scripts/setup.sh`
-rebuilds from that lock so contributors and automation execute the same
-quality-toolchain contract.
+Direct dependencies are pinned in `pyproject.toml`; the fully resolved
+transitive graph is committed in `requirements.lock`.
 
 ## Repository Structure
 
 ```text
-docs/images/              Vaipex delivery-flow and architecture illustrations
-policies/                 Versioned visual and accessibility decision rules
-src/                      Python control plane and reference application
-src/.../static/           Local JavaScript and responsive visual system
-src/.../templates/        Deterministic application markup and states
-tests/accessibility/      Accessibility journeys and policy assertions
-tests/visual/             Visual states, profiles, and reviewed baselines
-scripts/                  Supported setup, execution, and demonstration commands
-pyproject.toml            Package metadata and tool configuration
-requirements.lock         Fully resolved Python dependency graph
+.github/workflows/         Continuous quality-gate enforcement
+docs/images/               Vaipex flow and architecture illustrations
+policies/                  Visual, accessibility, and exception contracts
+scripts/                   Supported setup, execution, and demo commands
+src/                       Control plane and reference application
+tests/unit/                Policy and decision tests
+tests/visual/baselines/    Reviewed desktop and mobile evidence
 ```
+
+## Customization
+
+- Add a page or state to both policy matrices and approve the resulting visual
+  candidates.
+- Add a responsive profile with explicit width and height contracts.
+- Adjust pixel tolerance only through a reviewed policy and baseline change.
+- Change blocking impacts or WCAG tags in the accessibility policy.
+- Add a temporary exception only with a narrow selector, owner, rationale, and
+  expiration date.
+- Replace the reference application with a deployed environment while keeping
+  the same evidence and decision interfaces.
 
 ## Project Boundaries
 
 This project demonstrates automated visual-regression and accessibility
-governance. It is not a substitute for usability research, manual keyboard and
-screen-reader testing, disability-led review, accessibility certification, or
-a commercial cross-device visual-testing service. It provides a repeatable
-engineering signal that makes those broader practices easier to operate.
+governance. It is not a substitute for usability research, assistive-technology
+testing, disability-led review, accessibility certification, or a commercial
+cross-device testing service.
 
 ## Contributing
 

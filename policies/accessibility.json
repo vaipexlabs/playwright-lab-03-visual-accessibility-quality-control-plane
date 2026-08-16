@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "standard": "WCAG 2.2 Level A and AA",
+  "tags": [
+    "wcag2a",
+    "wcag2aa",
+    "wcag21a",
+    "wcag21aa",
+    "wcag22aa"
+  ],
+  "blocking_impacts": [
+    "critical",
+    "serious"
+  ],
+  "advisory_impacts": [
+    "moderate",
+    "minor"
+  ],
+  "profiles": {
+    "desktop": {
+      "width": 1440,
+      "height": 1000
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844
+    }
+  },
+  "states": {
+    "degraded": "/?state=degraded",
+    "empty": "/?state=empty",
+    "ready": "/?state=ready",
+    "review-dialog": "/?dialog=true"
+  }
+}
