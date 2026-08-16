@@ -165,6 +165,40 @@ Visual baselines are product evidence, not disposable test output.
 Reviewed images will live under `tests/visual/baselines/`. Generated candidate
 and diff evidence will remain outside Git under `artifacts/` and `reports/`.
 
+### Governed baseline lifecycle
+
+Generate a candidate set without changing the approved baseline boundary:
+
+```bash
+./scripts/propose-baselines.sh
+```
+
+Review every PNG and its manifest under `artifacts/visual/candidates/`. The
+manifest records the policy digest, route, browser version, renderer,
+dimensions, and screenshot SHA-256 digest used for the review. Candidate
+evidence is intentionally ignored by Git.
+
+Only after review, promote that exact candidate set with the explicit approval
+signal:
+
+```bash
+VAIPEX_APPROVE_BASELINES=1 ./scripts/accept-baselines.sh
+```
+
+Promotion verifies every candidate's digest and dimensions, rejects unsafe
+paths, copies the reviewed bytes into `tests/visual/baselines/`, and publishes
+the approval manifest. It never generates a new screenshot while accepting.
+
+Verify the committed approval boundary at any time:
+
+```bash
+./scripts/verify-baselines.sh
+```
+
+The first approved contract covers the populated desktop state at 1440 × 1000
+using the pinned Chromium renderer. Additional responsive profiles arrive in
+the following milestone.
+
 ## Accessibility Policy
 
 The accessibility gate will use automated analysis as an engineering control,
@@ -198,7 +232,7 @@ usability review; they do not replace them.
 - [x] Establish the repository, quality contract, licensing, and project shape.
 - [x] Add the locked Python, Playwright, and accessibility-analysis toolchain.
 - [x] Deliver a deterministic responsive reference application.
-- [ ] Implement reviewed visual baselines and explicit update controls.
+- [x] Implement reviewed visual baselines and explicit update controls.
 - [ ] Add desktop and mobile visual-regression profiles.
 - [ ] Enforce WCAG tags, severity policy, and governed exceptions.
 - [ ] Correlate visual and accessibility evidence into one decision.
