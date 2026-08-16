@@ -1,14 +1,37 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "renderer": "chromium",
   "render_contract": "vaipex-v1",
   "profiles": {
     "desktop": {
       "width": 1440,
       "height": 1000
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844
     }
   },
   "states": {
-    "ready": "/?state=ready"
+    "degraded": {
+      "route": "/?state=degraded",
+      "full_page": true
+    },
+    "empty": {
+      "route": "/?state=empty",
+      "full_page": true
+    },
+    "ready": {
+      "route": "/?state=ready",
+      "full_page": true
+    },
+    "review-dialog": {
+      "route": "/?dialog=true",
+      "full_page": false
+    }
+  },
+  "comparison": {
+    "channel_delta_threshold": 8,
+    "max_changed_pixel_ratio": 0.001
   }
 }

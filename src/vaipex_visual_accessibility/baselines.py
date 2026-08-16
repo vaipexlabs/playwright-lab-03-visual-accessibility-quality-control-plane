@@ -133,7 +133,9 @@ def propose_baselines(
                     timezone_id="UTC",
                 )
                 try:
-                    for state_name, route in policy["states"].items():
+                    for state_name, state_contract in policy["states"].items():
+                        route = state_contract["route"]
+                        full_page = state_contract["full_page"]
                         page = context.new_page()
                         page.goto(f"{base_url}{route}", wait_until="networkidle")
                         page.evaluate("document.fonts.ready")
@@ -145,7 +147,7 @@ def propose_baselines(
                         candidate_path.parent.mkdir(parents=True, exist_ok=True)
                         page.screenshot(
                             path=candidate_path,
-                            full_page=True,
+                            full_page=full_page,
                             animations="disabled",
                             caret="hide",
                             scale="css",
@@ -155,6 +157,7 @@ def propose_baselines(
                         items[item_key] = {
                             "browser_version": browser_version,
                             "file": relative_path.as_posix(),
+                            "full_page": full_page,
                             "height": height,
                             "renderer": policy["renderer"],
                             "route": route,
