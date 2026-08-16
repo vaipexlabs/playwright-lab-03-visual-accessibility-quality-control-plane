@@ -113,4 +113,15 @@ def test_visual_policy_has_an_explicit_reference_contract() -> None:
     assert policy["renderer"] == "chromium"
     assert policy["render_contract"] == "vaipex-v1"
     assert policy["profiles"]["desktop"] == {"width": 1440, "height": 1000}
-    assert policy["states"] == {"ready": "/?state=ready"}
+    assert policy["profiles"]["mobile"] == {"width": 390, "height": 844}
+    assert policy["schema_version"] == 2
+    assert policy["states"] == {
+        "degraded": {"route": "/?state=degraded", "full_page": True},
+        "empty": {"route": "/?state=empty", "full_page": True},
+        "ready": {"route": "/?state=ready", "full_page": True},
+        "review-dialog": {"route": "/?dialog=true", "full_page": False},
+    }
+    assert policy["comparison"] == {
+        "channel_delta_threshold": 8,
+        "max_changed_pixel_ratio": 0.001,
+    }

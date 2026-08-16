@@ -115,10 +115,10 @@
                 {% for project in projects %}
                 <tr>
                   <th scope="row">{{ project.name }}</th>
-                  <td>{{ project.owner }}</td>
-                  <td><span class="status {{ project.status_class }}">{{ project.status }}</span></td>
-                  <td>{{ project.coverage }}</td>
-                  <td>{{ project.last_review }}</td>
+                  <td data-label="Owner">{{ project.owner }}</td>
+                  <td data-label="Status"><span class="status {{ project.status_class }}">{{ project.status }}</span></td>
+                  <td data-label="Coverage">{{ project.coverage }}</td>
+                  <td data-label="Last review">{{ project.last_review }}</td>
                 </tr>
                 {% endfor %}
               </tbody>

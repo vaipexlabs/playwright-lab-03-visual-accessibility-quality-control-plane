@@ -1,16 +1,87 @@
 {
   "items": {
+    "desktop/degraded": {
+      "browser_version": "151.0.7922.34",
+      "file": "desktop/degraded.png",
+      "full_page": true,
+      "height": 1060,
+      "renderer": "chromium",
+      "route": "/?state=degraded",
+      "sha256": "df60459a0722649e45b6021252021e227c790d513bfe9053ab2576fcf9e2d2c4",
+      "width": 1440
+    },
+    "desktop/empty": {
+      "browser_version": "151.0.7922.34",
+      "file": "desktop/empty.png",
+      "full_page": true,
+      "height": 1060,
+      "renderer": "chromium",
+      "route": "/?state=empty",
+      "sha256": "67fbe89facd04269e88f1af269ee72e4ddbf299302ac24d7a6057f4a5aa23194",
+      "width": 1440
+    },
     "desktop/ready": {
       "browser_version": "151.0.7922.34",
       "file": "desktop/ready.png",
+      "full_page": true,
       "height": 1060,
       "renderer": "chromium",
       "route": "/?state=ready",
       "sha256": "fcd012ee39ebb6144df8650e0a36f6c1f27719928ac6bac07bae1372e3aabd26",
       "width": 1440
+    },
+    "desktop/review-dialog": {
+      "browser_version": "151.0.7922.34",
+      "file": "desktop/review-dialog.png",
+      "full_page": false,
+      "height": 1000,
+      "renderer": "chromium",
+      "route": "/?dialog=true",
+      "sha256": "446d2d9921aaaf13181fc1c51b38e8700d417fc53988f8187a4c39ee9f864754",
+      "width": 1440
+    },
+    "mobile/degraded": {
+      "browser_version": "151.0.7922.34",
+      "file": "mobile/degraded.png",
+      "full_page": true,
+      "height": 1945,
+      "renderer": "chromium",
+      "route": "/?state=degraded",
+      "sha256": "0bff81983cbe0fe5497ea66840f716e70f5721b5df7b0a50dd11b9a7d3f43e1f",
+      "width": 390
+    },
+    "mobile/empty": {
+      "browser_version": "151.0.7922.34",
+      "file": "mobile/empty.png",
+      "full_page": true,
+      "height": 1785,
+      "renderer": "chromium",
+      "route": "/?state=empty",
+      "sha256": "1172d6613e437b7bf7ee2d1fbd91f64a763afbe0c42418bda8a1819ae22aed48",
+      "width": 390
+    },
+    "mobile/ready": {
+      "browser_version": "151.0.7922.34",
+      "file": "mobile/ready.png",
+      "full_page": true,
+      "height": 1945,
+      "renderer": "chromium",
+      "route": "/?state=ready",
+      "sha256": "076010f7e260882e457b860b49e6e047caa8d78362728c9fdf1ea9786a2fc922",
+      "width": 390
+    },
+    "mobile/review-dialog": {
+      "browser_version": "151.0.7922.34",
+      "file": "mobile/review-dialog.png",
+      "full_page": false,
+      "height": 844,
+      "renderer": "chromium",
+      "route": "/?dialog=true",
+      "sha256": "902f15ca5ae5c622cc43161476763a3f9caa22ce3e25ed6973c488f8f1656811",
+      "width": 390
     }
   },
-  "policy_sha256": "e8ab55f84abb2f58f818f6b2556f7e70a1054d1b2c5d04d0ee615ddfa7f57576",
+  "policy_sha256": "f0acf04ca8d3b63ed1cdacee598403268fe94c8c6494f830fccf7188e3b8f953",
   "render_contract": "vaipex-v1",
-  "schema_version": 1
+  "schema_version": 2
 }

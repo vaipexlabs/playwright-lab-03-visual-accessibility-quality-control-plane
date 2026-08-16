@@ -311,6 +311,40 @@ dialog input, dialog select { width: 100%; min-height: 44px; padding: 0.65rem 0.
   .metric-card strong { font-size: 1.7rem; }
   .trend { font-size: 0.65rem; }
   .panel-header { padding: 1rem; }
+  .table-scroll { overflow-x: visible; }
+  table, tbody, tr, th, td { display: block; }
+  thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+  tbody { padding: 0.3rem 1rem 1rem; }
+  tbody tr {
+    padding: 0.9rem 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem 1rem;
+    border-bottom: 1px solid #e8eaee;
+  }
+  tbody tr:last-child { border-bottom: 0; }
+  tbody th, tbody td {
+    padding: 0;
+    border: 0;
+    white-space: normal;
+  }
+  tbody th { grid-column: 1 / -1; font-size: 0.86rem; }
+  tbody td::before {
+    content: attr(data-label);
+    margin-bottom: 0.22rem;
+    display: block;
+    color: var(--muted);
+    font-size: 0.62rem;
+    font-weight: 750;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
   footer { flex-direction: column; gap: 0.4rem; }
 }
 

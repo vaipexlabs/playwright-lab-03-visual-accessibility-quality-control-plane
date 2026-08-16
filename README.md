@@ -195,9 +195,31 @@ Verify the committed approval boundary at any time:
 ./scripts/verify-baselines.sh
 ```
 
-The first approved contract covers the populated desktop state at 1440 × 1000
-using the pinned Chromium renderer. Additional responsive profiles arrive in
-the following milestone.
+The approved matrix covers ready, empty, degraded, and review-dialog states at
+desktop 1440 × 1000 and mobile 390 × 844 using the pinned Chromium renderer.
+
+### Run the visual quality gate
+
+```bash
+./scripts/test-visual.sh
+```
+
+The command captures all eight profile-state combinations, compares them with
+the approved images, and applies the versioned threshold policy. A channel
+delta of eight or less is treated as rendering noise; the gate fails when more
+than 0.1% of pixels exceed that delta or when dimensions change.
+
+Review evidence is written outside Git:
+
+| Evidence | Location |
+| --- | --- |
+| Current captures | `artifacts/visual/actual/` |
+| Highlighted differences | `artifacts/visual/diffs/` |
+| Machine-readable decision | `reports/visual/results.json` |
+
+Diff images preserve the expected interface in muted grayscale and highlight
+changed pixels in magenta. Dimension failures preserve expected and actual
+images side by side, separated by a magenta boundary.
 
 ## Accessibility Policy
 
@@ -233,7 +255,7 @@ usability review; they do not replace them.
 - [x] Add the locked Python, Playwright, and accessibility-analysis toolchain.
 - [x] Deliver a deterministic responsive reference application.
 - [x] Implement reviewed visual baselines and explicit update controls.
-- [ ] Add desktop and mobile visual-regression profiles.
+- [x] Add desktop and mobile visual-regression profiles.
 - [ ] Enforce WCAG tags, severity policy, and governed exceptions.
 - [ ] Correlate visual and accessibility evidence into one decision.
 - [ ] Enforce the combined quality gate through GitHub Actions.
