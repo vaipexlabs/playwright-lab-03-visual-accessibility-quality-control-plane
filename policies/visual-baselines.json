@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "renderer": "chromium",
+  "render_contract": "vaipex-v1",
+  "profiles": {
+    "desktop": {
+      "width": 1440,
+      "height": 1000
+    }
+  },
+  "states": {
+    "ready": "/?state=ready"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "items": {
+    "desktop/ready": {
+      "browser_version": "151.0.7922.34",
+      "file": "desktop/ready.png",
+      "height": 1060,
+      "renderer": "chromium",
+      "route": "/?state=ready",
+      "sha256": "fcd012ee39ebb6144df8650e0a36f6c1f27719928ac6bac07bae1372e3aabd26",
+      "width": 1440
+    }
+  },
+  "policy_sha256": "e8ab55f84abb2f58f818f6b2556f7e70a1054d1b2c5d04d0ee615ddfa7f57576",
+  "render_contract": "vaipex-v1",
+  "schema_version": 1
+}
