@@ -20,6 +20,7 @@ echo "Creating the locked Python environment..."
 "${PYTHON_BIN}" -m venv "${VENV_DIR}"
 "${VENV_DIR}/bin/python" -m pip install --upgrade "pip==26.2.1"
 "${VENV_DIR}/bin/python" -m pip install --requirement "${PROJECT_ROOT}/requirements.lock"
+"${VENV_DIR}/bin/pip-sync" "${PROJECT_ROOT}/requirements.lock"
 "${VENV_DIR}/bin/python" -m pip install \
   --no-deps \
   --no-build-isolation \

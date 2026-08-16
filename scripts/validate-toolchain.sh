@@ -18,6 +18,7 @@ from playwright.sync_api import sync_playwright
 expected = {
     "axe-playwright-python": "0.1.8",
     "fastapi": "0.141.1",
+    "httpx2": "2.10.0",
     "pillow": "12.3.0",
     "playwright": "1.62.0",
     "pytest": "9.1.1",
